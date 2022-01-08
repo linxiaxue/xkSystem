@@ -3,7 +3,7 @@ package Entity;
 public class Progress_report {
     private Integer id;
 
-    private Integer studentNo;
+    private String studentNo;
 
     private String planSectionType;
 
@@ -15,7 +15,7 @@ public class Progress_report {
 
     private String remark;
 
-    public Progress_report(Integer id, Integer studentNo, String planSectionType, Integer planThreshold, Integer actual, Integer unit, String remark) {
+    public Progress_report(Integer id, String studentNo, String planSectionType, Integer planThreshold, Integer actual, Integer unit, String remark) {
         this.id = id;
         this.studentNo = studentNo;
         this.planSectionType = planSectionType;
@@ -37,12 +37,12 @@ public class Progress_report {
         this.id = id;
     }
 
-    public Integer getStudentNo() {
+    public String getStudentNo() {
         return studentNo;
     }
 
-    public void setStudentNo(Integer studentNo) {
-        this.studentNo = studentNo;
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo == null ? null : studentNo.trim();
     }
 
     public String getPlanSectionType() {

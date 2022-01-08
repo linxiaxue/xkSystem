@@ -7,11 +7,11 @@ public class Student_course {
 
     private String courseNo;
 
-    private Integer studentNo;
+    private String studentNo;
 
     private Date date;
 
-    public Student_course(Integer id, String courseNo, Integer studentNo, Date date) {
+    public Student_course(Integer id, String courseNo, String studentNo, Date date) {
         this.id = id;
         this.courseNo = courseNo;
         this.studentNo = studentNo;
@@ -38,12 +38,12 @@ public class Student_course {
         this.courseNo = courseNo == null ? null : courseNo.trim();
     }
 
-    public Integer getStudentNo() {
+    public String getStudentNo() {
         return studentNo;
     }
 
-    public void setStudentNo(Integer studentNo) {
-        this.studentNo = studentNo;
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo == null ? null : studentNo.trim();
     }
 
     public Date getDate() {
