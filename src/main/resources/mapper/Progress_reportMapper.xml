@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Dao.Progress_reportMapper">
+  <resultMap id="BaseResultMap" type="Entity.Progress_report">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="student_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="plan_section_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="plan_threshold" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="actual" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="unit" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, student_no, plan_section_type, plan_threshold, actual, unit, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from progress_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from progress_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="Entity.Progress_report" useGeneratedKeys="true" keyProperty="id">
+    insert into progress_report (id, student_no, plan_section_type, 
+      plan_threshold, actual, unit, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{studentNo,jdbcType=VARCHAR}, #{planSectionType,jdbcType=VARCHAR}, 
+      #{planThreshold,jdbcType=INTEGER}, #{actual,jdbcType=INTEGER}, #{unit,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="Entity.Progress_report">
+    insert into progress_report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="studentNo != null">
+        student_no,
+      </if>
+      <if test="planSectionType != null">
+        plan_section_type,
+      </if>
+      <if test="planThreshold != null">
+        plan_threshold,
+      </if>
+      <if test="actual != null">
+        actual,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="studentNo != null">
+        #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="planSectionType != null">
+        #{planSectionType,jdbcType=VARCHAR},
+      </if>
+      <if test="planThreshold != null">
+        #{planThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="actual != null">
+        #{actual,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="Entity.Progress_report">
+    update progress_report
+    <set>
+      <if test="studentNo != null">
+        student_no = #{studentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="planSectionType != null">
+        plan_section_type = #{planSectionType,jdbcType=VARCHAR},
+      </if>
+      <if test="planThreshold != null">
+        plan_threshold = #{planThreshold,jdbcType=INTEGER},
+      </if>
+      <if test="actual != null">
+        actual = #{actual,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="Entity.Progress_report">
+    update progress_report
+    set student_no = #{studentNo,jdbcType=VARCHAR},
+      plan_section_type = #{planSectionType,jdbcType=VARCHAR},
+      plan_threshold = #{planThreshold,jdbcType=INTEGER},
+      actual = #{actual,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
