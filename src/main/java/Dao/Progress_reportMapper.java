@@ -1,6 +1,9 @@
 package Dao;
 
 import Entity.Progress_report;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface Progress_reportMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,7 @@ public interface Progress_reportMapper {
     int updateByPrimaryKeySelective(Progress_report record);
 
     int updateByPrimaryKey(Progress_report record);
+
+    @Select("select * from progress_report where student_no = #{student_no}")
+    List<Progress_report> selectByStudentNo(String studentNo);
 }
