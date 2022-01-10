@@ -1,3 +1,4 @@
+import Service.CountService;
 import Service.DBUtil;
 import Service.Demo;
 import Service.InputData;
@@ -38,5 +39,7 @@ public class xkSystem {
         inputData.initPlan();
         inputData.initPlanSection(0);
         inputData.initCourseCategory(0);
+        CountService countService = new CountService();
+        countService.countByStudentNo("18302010993");
     }
 }

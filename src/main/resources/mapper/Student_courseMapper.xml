@@ -100,4 +100,10 @@
     from student_course
     where course_no = #{courseNo,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByCourseNoAndStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from student_course
+    where course_no = #{courseNo,jdbcType=VARCHAR} and student_no = #{studentNo,jdbcType=VARCHAR}
+  </select>
 </mapper>

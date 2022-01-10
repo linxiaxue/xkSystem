@@ -22,5 +22,6 @@
         <mapper resource="mapper/Progress_reportMapper.xml"/>
         <mapper resource="mapper/Student_courseMapper.xml"/>
         <mapper resource="mapper/StudentMapper.xml"/>
+        <mapper resource="mapper/Progress_report_detailMapper.xml"/>
     </mappers>
 </configuration>

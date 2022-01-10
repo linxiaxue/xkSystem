@@ -1,6 +1,7 @@
 package Service;
 
 import Dao.*;
+import Dto.ProgressReportQueryDto;
 import Entity.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -12,30 +13,37 @@ import java.io.InputStream;
 import java.util.List;
 
 public class CountService {
+    private StudentService studentService = new StudentService();
+    private PlanSectionService planSectionService = new PlanSectionService();
+    private CourseService courseService = new CourseService();
+
     public SqlSessionFactory getSqlSessionFactory() throws IOException {
         String resource = "conf.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         return new SqlSessionFactoryBuilder().build(inputStream);
     }
+    public void countByStudentNo(String studentNo) throws IOException {
+        Student student = studentService.queryStudentByStudentNo(studentNo);
+        Plan plan = getPlanByStudentNo(student);
+        List<Plan_section> list = planSectionService.queryByPlanId(plan.getId());
+        for (Plan_section plan_section : list){
+            countPlanSection(plan_section,student);
+        }
+    }
 
-    public Plan getPlanByStudentNo(String studentNo) throws IOException {
+    public Plan getPlanByStudentNo(Student student) throws IOException {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
         SqlSession openSession = sqlSessionFactory.openSession();
         Plan plan = new Plan();
 
         try {
-            StudentMapper studentMapper = openSession.getMapper(StudentMapper.class);
-            List<Student> students = studentMapper.selectByStudentNo(studentNo);
-            System.out.println("查询到的条目数:" + students.size());
-            if (students.size() == 1){
-                Student student = students.get(0);
                 String major = student.getMajor();
                 PlanMapper planMapper = openSession.getMapper(PlanMapper.class);
                 List<Plan> plans = planMapper.selectByMajor(major);
                 if (plans.size() == 1){
                     plan = plans.get(0);
                 }
-            }
+
         } finally {
             openSession.close();
         }
@@ -51,13 +59,15 @@ public class CountService {
         int actualNumber = 0;
         try {
             Progress_reportMapper progress_reportMapper = openSession.getMapper(Progress_reportMapper.class);
-            List<Progress_report> progress_reports = progress_reportMapper.selectByPlanIdAndStudentNo(plan_section.getPlanId(),student.getStudentNo());
+            List<Progress_report> progress_reports = progress_reportMapper.selectByPlanIdAndStudentNoAndSectionType(plan_section.getPlanId(),student.getStudentNo(),plan_section.getPlanSectionType());
             if (progress_reports.size() != 0){
                 progress_report = progress_reports.get(0);
             }else {
                 progress_report.setPlanSectionType(plan_section.getPlanSectionType());
                 progress_report.setPlanThreshold(plan_section.getPlanThreshold());
                 progress_report.setUnit(plan_section.getUnit());
+                progress_report.setPlanId(plan_section.getPlanId());
+                progress_report.setStudentNo(student.getStudentNo());
                 progress_reportMapper.insert(progress_report);
                 openSession.commit();
             }
@@ -65,19 +75,16 @@ public class CountService {
             List<Course_category> planCourses = course_categoryMapper.selectByPlanSectionId(plan_section.getId());
             for (Course_category course_category : planCourses){
                 String courseNo = course_category.getCourseNo();
-                CourseMapper courseMapper = openSession.getMapper(CourseMapper.class);
-                List<Course> courses = courseMapper.selectByCourseNo(courseNo);
-                Course course = courses.get(0);
+                Course course = courseService.queryCourseByCourseNo(courseNo);
                 Student_courseMapper student_courseMapper = openSession.getMapper(Student_courseMapper.class);
-                List<Student_course> student_courses = student_courseMapper.selectByCourseNo(courseNo);
+                List<Student_course> student_courses = student_courseMapper.selectByCourseNoAndStudentNo(courseNo,student.getStudentNo());
                 if (student_courses.size() != 0){
                     actualNumber ++;
                     actualCredit += course.getCredit();
                     saveReportDetail(course,student.getStudentNo(),progress_report,"");
                 }else{
                     if (course.getExchangeNo() != null && !course.getExchangeNo().equals("")){
-                        List<Course> exCourses = courseMapper.selectByCourseNo(course.getExchangeNo());
-                        Course exCourse = exCourses.get(0);
+                        Course exCourse = courseService.queryCourseByCourseNo(course.getExchangeNo());
                         actualNumber ++;
                         actualCredit += exCourse.getCredit();
                         saveReportDetail(exCourse,student.getStudentNo(),progress_report,"交流");
@@ -86,14 +93,13 @@ public class CountService {
             }
             if (progress_report.getUnit() == 0){
                 progress_report.setActual(actualCredit);
-                double progress = (double)(Math.round(actualCredit / plan_section.getPlanThreshold())/100.0);
-                progress_report.setRemark(progress+"");
+                double progress = (double)actualCredit/(double)progress_report.getPlanThreshold();
+                progress_report.setRemark(String.format("%.2f", progress));
             }else {
                 progress_report.setActual(actualNumber);
-                double progress = (double)(Math.round(actualNumber / plan_section.getPlanThreshold())/100.0);
-                progress_report.setRemark(progress+"");
+                double progress = (double)actualNumber/(double)progress_report.getPlanThreshold();
+                progress_report.setRemark(String.format("%.2f", progress));
             }
-
             progress_reportMapper.updateByPrimaryKey(progress_report);
             openSession.commit();
 
@@ -113,8 +119,8 @@ public class CountService {
             progress_report_detail.setReportId(progress_report.getId());
             progress_report_detail.setStudentNo(studentNo);
             progress_report_detail.setRemark(remark);
-            Progress_report_detailMapper mapper = openSession.getMapper(Progress_report_detailMapper.class);
-            mapper.insert(progress_report_detail);
+            Progress_report_detailMapper progress_report_detailMapper = openSession.getMapper(Progress_report_detailMapper.class);
+            progress_report_detailMapper.insert(progress_report_detail);
             openSession.commit();
         }finally {
             openSession.close();

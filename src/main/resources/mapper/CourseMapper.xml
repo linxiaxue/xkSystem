@@ -99,7 +99,7 @@
     from course
   </select>
 
-  <select id="selectByCourseNo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByCourseNo" parameterType="java.lang.String" resultMap="BaseResultMap">
     select *
     from course
     where course_no = #{courseNo,jdbcType=INTEGER}

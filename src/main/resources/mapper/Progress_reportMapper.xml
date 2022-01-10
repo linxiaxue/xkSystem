@@ -136,6 +136,18 @@
     from progress_report
   </select>
 
+  <select id="selectByPlanIdAndStudentNo" resultMap="BaseResultMap">
+    select *
+    from progress_report
+    where plan_id = #{planId,jdbcType=INTEGER} and student_no = #{studentNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPlanIdAndStudentNoAndSectionType" resultMap="BaseResultMap">
+    select *
+    from progress_report
+    where plan_id = #{planId,jdbcType=INTEGER} and student_no = #{studentNo,jdbcType=VARCHAR} and plan_section_type = #{planSectionType,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
     select *
     from progress_report

@@ -14,5 +14,4 @@ public interface Progress_report_detailMapper {
     int updateByPrimaryKeySelective(Progress_report_detail record);
 
     int updateByPrimaryKey(Progress_report_detail record);
-
 }
