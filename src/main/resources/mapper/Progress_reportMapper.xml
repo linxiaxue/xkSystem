@@ -3,8 +3,8 @@
 <mapper namespace="Dao.Progress_reportMapper">
   <resultMap id="BaseResultMap" type="Entity.Progress_report">
     <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="student_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <idArg column="id"  javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="student_no"  javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="plan_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="plan_section_type" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="plan_threshold" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -12,6 +12,10 @@
       <arg column="unit" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="remark" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
+    <result column="student_no" property="studentNo" />
+    <result column="plan_id" property="planId" />
+    <result column="plan_section_type" property="planSectionType" />
+    <result column="plan_threshold" property="planThreshold" />
   </resultMap>
   <sql id="Base_Column_List">
     id, student_no, plan_id, plan_section_type, plan_threshold, actual, unit, remark
@@ -26,7 +30,7 @@
     delete from progress_report
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="Entity.Progress_report"  useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="Entity.Progress_report" useGeneratedKeys="true" keyProperty="id">
     insert into progress_report (id, student_no, plan_id, 
       plan_section_type, plan_threshold, actual, 
       unit, remark)
@@ -127,4 +131,14 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from progress_report
+  </select>
+
+  <select id="selectByStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from progress_report
+    where student_no = #{studentNo,jdbcType=VARCHAR}
+  </select>
 </mapper>

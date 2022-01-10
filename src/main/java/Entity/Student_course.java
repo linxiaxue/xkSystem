@@ -1,7 +1,5 @@
 package Entity;
 
-import java.util.Date;
-
 public class Student_course {
     private Integer id;
 
@@ -9,9 +7,9 @@ public class Student_course {
 
     private String studentNo;
 
-    private Date date;
+    private String date;
 
-    public Student_course(Integer id, String courseNo, String studentNo, Date date) {
+    public Student_course(Integer id, String courseNo, String studentNo, String date) {
         this.id = id;
         this.courseNo = courseNo;
         this.studentNo = studentNo;
@@ -46,11 +44,11 @@ public class Student_course {
         this.studentNo = studentNo == null ? null : studentNo.trim();
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(String date) {
+        this.date = date == null ? null : date.trim();
     }
 }

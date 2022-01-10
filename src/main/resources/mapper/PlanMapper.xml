@@ -70,142 +70,14 @@
       direction = #{direction,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <resultMap id="BaseResultMap" type="Entity.Plan">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="major" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="direction" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, major, direction
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
     from plan
-    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from plan
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="Entity.Plan">
-    insert into plan (id, major, direction
-      )
-    values (#{id,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{direction,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="Entity.Plan">
-    insert into plan
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="major != null">
-        major,
-      </if>
-      <if test="direction != null">
-        direction,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="major != null">
-        #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="direction != null">
-        #{direction,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="Entity.Plan">
-    update plan
-    <set>
-      <if test="major != null">
-        major = #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="direction != null">
-        direction = #{direction,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="Entity.Plan">
-    update plan
-    set major = #{major,jdbcType=VARCHAR},
-      direction = #{direction,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="Entity.Plan">
-    <constructor>
-      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="major" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="direction" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, major, direction
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+
+  <select id="selectByMajor" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
     from plan
-    where id = #{id,jdbcType=INTEGER}
+    where major = #{major,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from plan
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" keyProperty="id" parameterType="Entity.Plan" useGeneratedKeys="true">
-    insert into plan (id, major, direction
-      )
-    values (#{id,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, #{direction,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="Entity.Plan">
-    insert into plan
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="major != null">
-        major,
-      </if>
-      <if test="direction != null">
-        direction,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="major != null">
-        #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="direction != null">
-        #{direction,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="Entity.Plan">
-    update plan
-    <set>
-      <if test="major != null">
-        major = #{major,jdbcType=VARCHAR},
-      </if>
-      <if test="direction != null">
-        direction = #{direction,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="Entity.Plan">
-    update plan
-    set major = #{major,jdbcType=VARCHAR},
-      direction = #{direction,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
 </mapper>

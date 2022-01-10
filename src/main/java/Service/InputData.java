@@ -1,45 +1,47 @@
 package Service;
 
+import Entity.*;
+
 import java.io.*;
 import java.sql.*;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class InputData {
+    private StudentService studentService = new StudentService();
+    private CourseService courseService = new CourseService();
+    private StudentCourseService studentCourseService = new StudentCourseService();
+    private PlanService planService = new PlanService();
+    private PlanSectionService planSectionService = new PlanSectionService();
+    private CourseCategoryService courseCategoryService = new CourseCategoryService();
     //向系统中导入学生数据Students_Info.txt
-    public static void student(Connection conn) throws SQLException {
+    public void initStudent() throws IOException {
         //清空表中数据
-        PreparedStatement statement = conn.prepareStatement("truncate table student");
-        statement.executeUpdate();
+        studentService.deleteAll();
         File file = new File("TestCase/增强功能/Students_Info.txt");
         try {
             BufferedReader bw = new BufferedReader(new FileReader(file));
             String line = null;
             while ((line = bw.readLine())!=null){
                 String[] s = line.split(",");
-                String string = "";
-                for(int i=0;i<s.length;i++){
-                    string += "'"+s[i]+"'"+",";
-                }
-                string = string.substring(0,string.length()-1);
-                System.out.println(string);
-                String sql = "insert into student (student_no,name,major) values ("+string+")";
-                System.out.println(sql);
-                PreparedStatement state = conn.prepareStatement(sql);
-                state.executeUpdate();
+                Student student = new Student();
+                student.setStudentNo(s[0]);
+                student.setName(s[1]);
+                student.setMajor(s[2]);
+                student = studentService.addStudent(student);
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     //向系统中导入课程数据Courses_info.txt
-    public static void course(Connection conn,int mode) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("truncate table course");
-        statement.executeUpdate();
+    public void initCourse(int mode) throws IOException {
+        courseService.deleteAll();
         if(mode==0){
             File file = new File("TestCase/基础功能/Courses_Info.txt");
             try {
@@ -47,22 +49,15 @@ public class InputData {
                 String line = null;
                 while ((line = bw.readLine())!=null){
                     String[] s = line.split(",");
-                    String string = "";
-                    for(int i=0;i<s.length;i++){
-                        string += "'"+s[i]+"'"+",";
-                    }
-                    string = string.substring(0,string.length()-1);
-                    System.out.println(string);
-                    String sql = "insert into course (course_no,name,credit) values ("+string+")";
-                    System.out.println(sql);
-                    PreparedStatement state = conn.prepareStatement(sql);
-                    state.executeUpdate();
+                    Course course = new Course();
+                    course.setCourseNo(s[0]);
+                    course.setName(s[1]);
+                    course.setCredit(Integer.parseInt(s[2].replace(" ","")));
+                    courseService.addCourse(course);
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -73,22 +68,16 @@ public class InputData {
                 String line = null;
                 while ((line = bw.readLine())!=null){
                     String[] s = line.split(",");
-                    String string = "";
-                    for(int i=0;i<s.length;i++){
-                        string += "'"+s[i]+"'"+",";
-                    }
-                    string = string.substring(0,string.length()-1);
-                    System.out.println(string);
-                    String sql = "insert into course (course_no,name,credit,exchange_no) values ("+string+")";
-                    System.out.println(sql);
-                    PreparedStatement state = conn.prepareStatement(sql);
-                    state.executeUpdate();
+                    Course course = new Course();
+                    course.setCourseNo(s[0]);
+                    course.setName(s[1]);
+                    course.setCredit(Integer.parseInt(s[2].replace(" ","")));
+                    course.setExchangeNo(s[3].replace("none",""));
+                    courseService.addCourse(course);
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -96,9 +85,9 @@ public class InputData {
     }
 
     //按照Learning.txt将修读信息导入系统
-    public static void student_Course(Connection conn,int mode) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("truncate table student_course");
-        statement.executeUpdate();
+    public void initStudent_Course(int mode) throws IOException {
+
+        studentCourseService.deleteAll();
         String choice="";
         if(mode==0){
             choice="基础功能";
@@ -112,76 +101,44 @@ public class InputData {
             String line = null;
             while ((line = bw.readLine())!=null){
                 String[] s = line.split(",");
-                String string = "";
-                for(int i=0;i<s.length;i++){
-                    string += "'"+s[i]+"'"+",";
-                }
-                //随机生成修读时间
-                Random ran = new Random();
-                int year = ran.nextInt(4)+2018;
-                Random random = new Random();
-                int month = random.nextInt(2);
-                if(month == 0){
-                    month = 3;
-                }
-                else {
-                    month = 9;
-                }
-
-                string += "'"+year+"-"+month+"-1'";
-                System.out.println(string);
-                String sql = "insert into student_course (student_no,course_no,date) values ("+string+")";
-                System.out.println(sql);
-                PreparedStatement state = conn.prepareStatement(sql);
-                state.executeUpdate();
+                Student_course student_course = new Student_course();
+                student_course.setStudentNo(s[0]);
+                student_course.setCourseNo(s[1]);
+                student_course.setDate("2018-09");
+                studentCourseService.add(student_course);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     //向系统中导入专业名.txt
-    public static void plan(Connection conn) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("truncate table plan");
-        statement.executeUpdate();
+    public void initPlan() throws IOException {
+        planService.deleteAll();
         File file = new File("TestCase/专业名.txt");
         try {
             BufferedReader bw = new BufferedReader(new FileReader(file));
             String line = null;
             while ((line = bw.readLine())!=null){
                 String[] s = line.split(",");
-                String string = "";
-                for(int i=0;i<s.length;i++){
-                    string += "'"+s[i]+"'"+",";
-                }
-                string = string.substring(0,string.length()-1);
-                System.out.println(string);
-                String sql = "insert into plan (major) values ("+string+")";
-                System.out.println(sql);
-                PreparedStatement state = conn.prepareStatement(sql);
-                state.executeUpdate();
+                Plan plan = new Plan();
+                plan.setMajor(s[0]);
+                planService.add(plan);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     //向系统中导入培养方案<major>.txt中的模块分类
-    public static void plan_Section(Connection conn,int mode) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("truncate table plan_section");
-        statement.executeUpdate();
-        Statement stmt = conn.createStatement();
-        ResultSet rset = stmt.executeQuery("select * from plan");
-        rset.last();
-        int plan_Number = rset.getRow();
+    public void initPlanSection(int mode) throws IOException {
+        planSectionService.deleteAll();
+        List<Plan> plans = planService.queryAll();
+        int plan_Number = plans.size();
         String choice="";
         if(mode==0){
             choice="基础功能";
@@ -189,13 +146,8 @@ public class InputData {
         else {
             choice="增强功能";
         }
-        for(int i=1;i<=plan_Number;i++){
-            ResultSet rset1 = stmt.executeQuery("select major from plan where id='"+i+"'");
-            String major = null;
-            while (rset1.next()){
-                major = rset1.getString(1);
-            }
-            String path = "TestCase/"+choice+"/"+major+".txt";
+        for(int i=0;i<plan_Number;i++){
+            String path = "TestCase/"+choice+"/"+plans.get(i).getMajor()+".txt";
             File file = new File(path);
             try {
                 BufferedReader bw = new BufferedReader(new FileReader(file));
@@ -217,12 +169,12 @@ public class InputData {
                         else {
                             unit = 0;
                         }
-                        String string = "'"+i+"',"+"'"+plan_Section_Type+"',"+"'"+plan_threshold+"',"+"'"+unit+"'";
-                        System.out.println(string);
-                        String sql = "insert into plan_section (plan_id,plan_section_type,plan_threshold,unit) values ("+string+")";
-                        System.out.println(sql);
-                        PreparedStatement state = conn.prepareStatement(sql);
-                        state.executeUpdate();
+                        Plan_section plan_section = new Plan_section();
+                        plan_section.setPlanId(plans.get(i).getId());
+                        plan_section.setPlanSectionType(plan_Section_Type);
+                        plan_section.setPlanThreshold(Integer.parseInt(plan_threshold.replace(" ","")));
+                        plan_section.setUnit(unit);
+                        planSectionService.add(plan_section);
                     }
                 }
             } catch (FileNotFoundException e) {
@@ -234,14 +186,10 @@ public class InputData {
     }
 
     //向系统中导入培养方案<major>.txt中各模块分类所包含的课程目录
-    public static void course_category(Connection conn,int mode) throws SQLException {
-        PreparedStatement statement = conn.prepareStatement("truncate table course_category");
-        statement.executeUpdate();
-
-        Statement stmt = conn.createStatement();
-        ResultSet rset = stmt.executeQuery("select * from plan_section");
-        rset.last();
-        int plan_Number = rset.getRow();
+    public void initCourseCategory(int mode) throws IOException {
+        courseCategoryService.deleteAll();
+        List<Plan_section> plan_sections = planSectionService.queryAll();
+        int plan_Number = plan_sections.size();
         String choice="";
         if(mode==0){
             choice="基础功能";
@@ -249,20 +197,10 @@ public class InputData {
         else {
             choice="增强功能";
         }
-        for(int i=1;i<=plan_Number;i++){
-            ResultSet resultSet = stmt.executeQuery("select plan_id,plan_section_type from plan_section where id='"+i+"'");
-            String plan_Section_Type = null;
-            int plan_id = 0;
-            while (resultSet.next()){
-                plan_Section_Type = resultSet.getString(2);
-                plan_id = resultSet.getInt(1);
-            }
-            ResultSet rset1 = stmt.executeQuery("select major from plan where id='"+plan_id+"'");
-            String major = null;
-            while (rset1.next()){
-                major = rset1.getString(1);
-            }
-            String path = "TestCase/"+choice+"/"+major+".txt";
+        for(int i=0;i<plan_Number;i++){
+            Plan_section planSection = plan_sections.get(i);
+            Plan plan = planService.queryById(planSection.getPlanId());
+            String path = "TestCase/"+choice+"/"+plan.getMajor()+".txt";
             File file = new File(path);
             try{
                 BufferedReader bw = new BufferedReader(new FileReader(file));
@@ -270,14 +208,12 @@ public class InputData {
                 String courses = null;
                 while ((line = bw.readLine())!=null){
                     //如果包含plan_id对应的模块名称
-                    if(line.indexOf(plan_Section_Type)!=-1){
+                    if(line.indexOf(planSection.getPlanSectionType())!=-1){
                         while ((courses = bw.readLine())!=null && courses.indexOf("[")==-1){
-                            String string = "'"+i+"','"+courses+"'";
-                            System.out.println(string);
-                            String sql = "insert into course_category (plan_section_id,course_no) values ("+string+")";
-                            System.out.println(sql);
-                            PreparedStatement state = conn.prepareStatement(sql);
-                            state.executeUpdate();
+                            Course_category course_category = new Course_category();
+                            course_category.setCourseNo(courses);
+                            course_category.setPlanSectionId(planSection.getId());
+                            courseCategoryService.add(course_category);
                         }
                     }
                 }

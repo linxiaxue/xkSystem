@@ -6,8 +6,10 @@
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="course_no" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="student_no" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="date" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
+    <result column="course_no" property="courseNo"/>
+    <result column="student_no" property="studentNo"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, course_no, student_no, date
@@ -26,7 +28,7 @@
     insert into student_course (id, course_no, student_no, 
       date)
     values (#{id,jdbcType=INTEGER}, #{courseNo,jdbcType=VARCHAR}, #{studentNo,jdbcType=VARCHAR}, 
-      #{date,jdbcType=TIMESTAMP})
+      #{date,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="Entity.Student_course">
     insert into student_course
@@ -55,7 +57,7 @@
         #{studentNo,jdbcType=VARCHAR},
       </if>
       <if test="date != null">
-        #{date,jdbcType=TIMESTAMP},
+        #{date,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -69,7 +71,7 @@
         student_no = #{studentNo,jdbcType=VARCHAR},
       </if>
       <if test="date != null">
-        date = #{date,jdbcType=TIMESTAMP},
+        date = #{date,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -78,7 +80,24 @@
     update student_course
     set course_no = #{courseNo,jdbcType=VARCHAR},
       student_no = #{studentNo,jdbcType=VARCHAR},
-      date = #{date,jdbcType=TIMESTAMP}
+      date = #{date,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from student_course
+  </select>
+
+  <select id="selectByStudentNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from student_course
+    where student_no = #{studentNo,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByCourseNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from student_course
+    where course_no = #{courseNo,jdbcType=VARCHAR}
+  </select>
 </mapper>

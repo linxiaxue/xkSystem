@@ -1,6 +1,7 @@
 package Dao;
 
 import Entity.Student;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -18,9 +19,10 @@ public interface StudentMapper {
 
     int updateByPrimaryKey(Student record);
 
-    @Select("select * from student where name = #{name}")
     List<Student> selectByName(String name);
 
-    @Select("select * from student where student_no = #{student_no}")
     List<Student> selectByStudentNo(String studentNo);
+
+    @Delete("delete from student")
+    int deleteAll();
 }
