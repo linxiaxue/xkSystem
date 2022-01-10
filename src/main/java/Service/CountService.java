@@ -92,11 +92,13 @@ public class CountService {
                 }
             }
             if (progress_report.getUnit() == 0){
-                progress_report.setActual(actualCredit);
+                progress_report.setActualcredit(actualCredit);
+                progress_report.setActualnumber(actualNumber);
                 double progress = (double)actualCredit/(double)progress_report.getPlanThreshold();
                 progress_report.setRemark(String.format("%.2f", progress));
             }else {
-                progress_report.setActual(actualNumber);
+                progress_report.setActualcredit(actualCredit);
+                progress_report.setActualnumber(actualNumber);
                 double progress = (double)actualNumber/(double)progress_report.getPlanThreshold();
                 progress_report.setRemark(String.format("%.2f", progress));
             }
