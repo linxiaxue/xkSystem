@@ -5,7 +5,7 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="course_no" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="student_no" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="student_no" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
@@ -25,7 +25,7 @@
   <insert id="insert" parameterType="Entity.Student_course" useGeneratedKeys="true" keyProperty="id">
     insert into student_course (id, course_no, student_no, 
       date)
-    values (#{id,jdbcType=INTEGER}, #{courseNo,jdbcType=VARCHAR}, #{studentNo,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{courseNo,jdbcType=VARCHAR}, #{studentNo,jdbcType=VARCHAR}, 
       #{date,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="Entity.Student_course">
@@ -52,7 +52,7 @@
         #{courseNo,jdbcType=VARCHAR},
       </if>
       <if test="studentNo != null">
-        #{studentNo,jdbcType=INTEGER},
+        #{studentNo,jdbcType=VARCHAR},
       </if>
       <if test="date != null">
         #{date,jdbcType=TIMESTAMP},
@@ -66,7 +66,7 @@
         course_no = #{courseNo,jdbcType=VARCHAR},
       </if>
       <if test="studentNo != null">
-        student_no = #{studentNo,jdbcType=INTEGER},
+        student_no = #{studentNo,jdbcType=VARCHAR},
       </if>
       <if test="date != null">
         date = #{date,jdbcType=TIMESTAMP},
@@ -77,7 +77,7 @@
   <update id="updateByPrimaryKey" parameterType="Entity.Student_course">
     update student_course
     set course_no = #{courseNo,jdbcType=VARCHAR},
-      student_no = #{studentNo,jdbcType=INTEGER},
+      student_no = #{studentNo,jdbcType=VARCHAR},
       date = #{date,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -5,11 +5,80 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="plan_section_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="course_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="course_no" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    id, plan_section_id, course_id
+    id, plan_section_id, course_no
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from course_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="Entity.Course_category">
+    insert into course_category (id, plan_section_id, course_no
+      )
+    values (#{id,jdbcType=INTEGER}, #{planSectionId,jdbcType=INTEGER}, #{courseNo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="Entity.Course_category">
+    insert into course_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="planSectionId != null">
+        plan_section_id,
+      </if>
+      <if test="courseNo != null">
+        course_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="planSectionId != null">
+        #{planSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null">
+        #{courseNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="Entity.Course_category">
+    update course_category
+    <set>
+      <if test="planSectionId != null">
+        plan_section_id = #{planSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null">
+        course_no = #{courseNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="Entity.Course_category">
+    update course_category
+    set plan_section_id = #{planSectionId,jdbcType=INTEGER},
+      course_no = #{courseNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="Entity.Course_category">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="plan_section_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="course_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, plan_section_id, course_no
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,9 +91,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="Entity.Course_category" useGeneratedKeys="true" keyProperty="id">
-    insert into course_category (id, plan_section_id, course_id
+    insert into course_category (id, plan_section_id, course_no
       )
-    values (#{id,jdbcType=INTEGER}, #{planSectionId,jdbcType=INTEGER}, #{courseId,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{planSectionId,jdbcType=INTEGER}, #{courseNo,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="Entity.Course_category">
@@ -36,8 +105,8 @@
       <if test="planSectionId != null">
         plan_section_id,
       </if>
-      <if test="courseId != null">
-        course_id,
+      <if test="courseNo != null">
+        course_no,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -47,7 +116,77 @@
       <if test="planSectionId != null">
         #{planSectionId,jdbcType=INTEGER},
       </if>
-      <if test="courseId != null">
+      <if test="courseNo != null">
+        #{courseNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="Entity.Course_category">
+    update course_category
+    <set>
+      <if test="planSectionId != null">
+        plan_section_id = #{planSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null">
+        course_no = #{courseNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="Entity.Course_category">
+    update course_category
+    set plan_section_id = #{planSectionId,jdbcType=INTEGER},
+      course_no = #{courseNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="Entity.Course_category">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="plan_section_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="course_no" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, plan_section_id, course_no
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from course_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from course_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="Entity.Course_category" useGeneratedKeys="true">
+    insert into course_category (id, plan_section_id, course_no
+
+      )
+    values (#{id,jdbcType=INTEGER}, #{planSectionId,jdbcType=INTEGER}, #{courseNo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="Entity.Course_category">
+    insert into course_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="planSectionId != null">
+        plan_section_id,
+      </if>
+      <if test="courseNo != null">
+        course_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="planSectionId != null">
+        #{planSectionId,jdbcType=INTEGER},
+      </if>
+      <if test="courseNo != null">
         #{courseId,jdbcType=VARCHAR},
       </if>
     </trim>
@@ -58,8 +197,8 @@
       <if test="planSectionId != null">
         plan_section_id = #{planSectionId,jdbcType=INTEGER},
       </if>
-      <if test="courseId != null">
-        course_id = #{courseId,jdbcType=VARCHAR},
+      <if test="courseNo != null">
+        course_no = #{courseNo,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -67,7 +206,7 @@
   <update id="updateByPrimaryKey" parameterType="Entity.Course_category">
     update course_category
     set plan_section_id = #{planSectionId,jdbcType=INTEGER},
-      course_id = #{courseId,jdbcType=VARCHAR}
+      course_no = #{courseNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

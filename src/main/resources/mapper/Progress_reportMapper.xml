@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="Entity.Progress_report">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="student_no" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="student_no" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="plan_section_type" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="plan_threshold" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="actual" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -29,7 +29,7 @@
     insert into progress_report (id, student_no, plan_section_type, 
       plan_threshold, actual, unit, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{studentNo,jdbcType=INTEGER}, #{planSectionType,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{studentNo,jdbcType=VARCHAR}, #{planSectionType,jdbcType=VARCHAR}, 
       #{planThreshold,jdbcType=INTEGER}, #{actual,jdbcType=INTEGER}, #{unit,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
@@ -63,7 +63,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="studentNo != null">
-        #{studentNo,jdbcType=INTEGER},
+        #{studentNo,jdbcType=VARCHAR},
       </if>
       <if test="planSectionType != null">
         #{planSectionType,jdbcType=VARCHAR},
@@ -86,7 +86,7 @@
     update progress_report
     <set>
       <if test="studentNo != null">
-        student_no = #{studentNo,jdbcType=INTEGER},
+        student_no = #{studentNo,jdbcType=VARCHAR},
       </if>
       <if test="planSectionType != null">
         plan_section_type = #{planSectionType,jdbcType=VARCHAR},
@@ -108,7 +108,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="Entity.Progress_report">
     update progress_report
-    set student_no = #{studentNo,jdbcType=INTEGER},
+    set student_no = #{studentNo,jdbcType=VARCHAR},
       plan_section_type = #{planSectionType,jdbcType=VARCHAR},
       plan_threshold = #{planThreshold,jdbcType=INTEGER},
       actual = #{actual,jdbcType=INTEGER},

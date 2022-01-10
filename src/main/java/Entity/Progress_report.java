@@ -3,7 +3,9 @@ package Entity;
 public class Progress_report {
     private Integer id;
 
-    private Integer studentNo;
+    private String studentNo;
+
+    private Integer planId;
 
     private String planSectionType;
 
@@ -15,9 +17,10 @@ public class Progress_report {
 
     private String remark;
 
-    public Progress_report(Integer id, Integer studentNo, String planSectionType, Integer planThreshold, Integer actual, Integer unit, String remark) {
+    public Progress_report(Integer id, String studentNo, Integer planId, String planSectionType, Integer planThreshold, Integer actual, Integer unit, String remark) {
         this.id = id;
         this.studentNo = studentNo;
+        this.planId = planId;
         this.planSectionType = planSectionType;
         this.planThreshold = planThreshold;
         this.actual = actual;
@@ -37,12 +40,20 @@ public class Progress_report {
         this.id = id;
     }
 
-    public Integer getStudentNo() {
+    public String getStudentNo() {
         return studentNo;
     }
 
-    public void setStudentNo(Integer studentNo) {
-        this.studentNo = studentNo;
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo == null ? null : studentNo.trim();
+    }
+
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
     public String getPlanSectionType() {

@@ -5,12 +5,12 @@ public class Course_category {
 
     private Integer planSectionId;
 
-    private String courseId;
+    private String courseNo;
 
-    public Course_category(Integer id, Integer planSectionId, String courseId) {
+    public Course_category(Integer id, Integer planSectionId, String courseNo) {
         this.id = id;
         this.planSectionId = planSectionId;
-        this.courseId = courseId;
+        this.courseNo = courseNo;
     }
 
     public Course_category() {
@@ -33,11 +33,11 @@ public class Course_category {
         this.planSectionId = planSectionId;
     }
 
-    public String getCourseId() {
-        return courseId;
+    public String getCourseNo() {
+        return courseNo;
     }
 
-    public void setCourseId(String courseId) {
-        this.courseId = courseId == null ? null : courseId.trim();
+    public void setCourseNo(String courseNo) {
+        this.courseNo = courseNo == null ? null : courseNo.trim();
     }
 }
