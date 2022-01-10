@@ -59,7 +59,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from progress_report_detail
     where id = #{id,jdbcType=INTEGER}
@@ -69,10 +69,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="Entity.Progress_report_detail"  useGeneratedKeys="true" keyProperty="id">
-    insert into progress_report_detail (id, student_no, plan_section_type, 
+    insert into progress_report_detail (id, student_no, plan_section_type,
       course_no, remark, report_id
       )
-    values (#{id,jdbcType=INTEGER}, #{studentNo,jdbcType=VARCHAR}, #{planSectionType,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{studentNo,jdbcType=VARCHAR}, #{planSectionType,jdbcType=VARCHAR},
       #{courseNo,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{reportId,jdbcType=INTEGER}
       )
   </insert>
@@ -149,4 +149,9 @@
       report_id = #{reportId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByReportId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from progress_report_detail
+    where report_id = #{reportId,jdbcType=INTEGER}
+  </select>
 </mapper>

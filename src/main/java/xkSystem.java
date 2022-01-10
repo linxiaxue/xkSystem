@@ -1,7 +1,4 @@
-import Service.CountService;
-import Service.DBUtil;
-import Service.Demo;
-import Service.InputData;
+import Service.*;
 
 
 import java.io.IOException;
@@ -41,5 +38,7 @@ public class xkSystem {
         inputData.initCourseCategory(0);
         CountService countService = new CountService();
         countService.countByStudentNo("18302010993");
+        PrintJsonService printJsonService=new PrintJsonService();
+        printJsonService.PrimaryPrintJson("18302010993");
     }
 }
