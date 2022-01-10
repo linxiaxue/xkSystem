@@ -20,4 +20,7 @@ public interface StudentMapper {
 
     @Select("select * from student where name = #{name}")
     List<Student> selectByName(String name);
+
+    @Select("select * from student where student_no = #{student_no}")
+    List<Student> selectByStudentNo(String studentNo);
 }
