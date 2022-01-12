@@ -154,4 +154,12 @@
     from progress_report_detail
     where report_id = #{reportId,jdbcType=INTEGER}
   </select>
+
+  <select id="queryReportDetailByCourseNoAndReportId" resultMap="BaseResultMap">
+    select *
+    from progress_report_detail
+    where report_id = #{reportId,jdbcType=INTEGER} and course_no = #{courseNo,jdbcType=VARCHAR}
+  </select>
+
+
 </mapper>

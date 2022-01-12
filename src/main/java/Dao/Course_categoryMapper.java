@@ -2,6 +2,7 @@ package Dao;
 
 import Entity.Course_category;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface Course_categoryMapper {
     int deleteAll();
 
     List<Course_category> selectByPlanSectionId(int planSectionId);
+
+    List<Course_category> selectByPlanSectionIdAndCourseNo(@Param("planSectionId") int planSectionId, @Param("courseNo") String courseNo);
 }

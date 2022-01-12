@@ -2,6 +2,7 @@ package Service;
 
 import Dao.PlanMapper;
 import Dao.Plan_sectionMapper;
+import Entity.Course_category;
 import Entity.Plan;
 import Entity.Plan_section;
 import org.apache.ibatis.io.Resources;
@@ -17,6 +18,7 @@ import java.util.List;
 public class PlanSectionService {
     @Resource
     Plan_sectionMapper plan_sectionMapper;
+    private CourseCategoryService courseCategoryService = new CourseCategoryService();
 
     public SqlSessionFactory getSqlSessionFactory() throws IOException {
         String resource = "conf.xml";
@@ -79,5 +81,16 @@ public class PlanSectionService {
         } finally {
             openSession.close();
         }
+    }
+
+    public Plan_section queryByCourseAndPlanId(int planId,String courseNo) throws IOException {
+        List<Plan_section> plan_sections = queryByPlanId(planId);
+        for (Plan_section plan_section : plan_sections){
+            List<Course_category> courses = courseCategoryService.queryByPlanSectionIdAndCourseNo(plan_section.getId(),courseNo);
+            if (courses != null){
+                return plan_section;
+            }
+        }
+        return null;
     }
 }

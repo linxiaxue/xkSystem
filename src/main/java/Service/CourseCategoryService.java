@@ -39,7 +39,7 @@ public class CourseCategoryService {
         }
     }
 
-    public List<Course_category> queryCByPlanSectionId(int planSectionId) throws IOException {
+    public List<Course_category> queryByPlanSectionId(int planSectionId) throws IOException {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
         SqlSession openSession = sqlSessionFactory.openSession();
 
@@ -52,6 +52,25 @@ public class CourseCategoryService {
             openSession.close();
         }
     }
+
+    public List<Course_category> queryByPlanSectionIdAndCourseNo(int planSectionId,String courseNo) throws IOException {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        SqlSession openSession = sqlSessionFactory.openSession();
+
+        try {
+            Course_categoryMapper course_categoryMapper = openSession.getMapper(Course_categoryMapper.class);
+            List<Course_category> courses = course_categoryMapper.selectByPlanSectionIdAndCourseNo(planSectionId,courseNo);
+            if (courses != null && courses.size() != 0) {
+                System.out.println("查询到的条目数:" + courses.size());
+                return courses;
+            }else {
+                return null;
+            }
+        } finally {
+            openSession.close();
+        }
+    }
+
 
     public void deleteAll() throws IOException {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();

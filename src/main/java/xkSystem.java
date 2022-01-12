@@ -31,13 +31,13 @@ public class xkSystem {
     public static void run() throws IOException {
         InputData inputData = new InputData();
         inputData.initStudent();
-        inputData.initCourse(0);
-        inputData.initStudent_Course(0);
+        inputData.initCourse(1);
+        inputData.initStudent_Course(1);
         inputData.initPlan();
-        inputData.initPlanSection(0);
-        inputData.initCourseCategory(0);
-        CountService countService = new CountService();
-        countService.countByStudentNo("18302010993");
+        inputData.initPlanSection(1);
+        inputData.initCourseCategory(1);
+        ProgressReportService progressReportService = new ProgressReportService();
+        progressReportService.updateReportByStudentNo("18302010993");
         PrintJsonService printJsonService=new PrintJsonService();
         printJsonService.PrimaryPrintJson("18302010993");
     }

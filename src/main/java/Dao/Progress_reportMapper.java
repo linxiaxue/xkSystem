@@ -2,6 +2,7 @@ package Dao;
 
 import Entity.Progress_report;
 import Entity.Progress_reportExample;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public interface Progress_reportMapper {
 
     List<Progress_report> selectByStudentNo(String studentNo);
 
+    @Delete("delete from progress_report")
     int deleteAll();
 
     List<Progress_report> selectByPlanIdAndStudentNo(@Param("planId")int planId, @Param("studentNo")String studentNo);

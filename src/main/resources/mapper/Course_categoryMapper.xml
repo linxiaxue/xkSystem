@@ -83,4 +83,11 @@
     from course_category
     where plan_section_id = #{planSectionId,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByPlanSectionIdAndCourseNo"  resultMap="BaseResultMap">
+    select *
+    from course_category
+    where plan_section_id = #{planSectionId,jdbcType=INTEGER} and course_no = #{courseNo,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

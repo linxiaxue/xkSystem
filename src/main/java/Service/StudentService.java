@@ -16,6 +16,7 @@ public class StudentService {
     @Resource
     StudentMapper studentMapper;
 
+
     public SqlSessionFactory getSqlSessionFactory() throws IOException {
         String resource = "conf.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -63,5 +64,15 @@ public class StudentService {
         } finally {
             openSession.close();
         }
+    }
+
+    public void changeMajor(String studentNo,String newMajor) throws IOException {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        SqlSession openSession = sqlSessionFactory.openSession();
+        StudentMapper studentMapper = openSession.getMapper(StudentMapper.class);
+        Student student = queryStudentByStudentNo(studentNo);
+        student.setMajor(newMajor);
+        studentMapper.updateByPrimaryKey(student);
+
     }
 }

@@ -1,4 +1,4 @@
-package Service;
+package Common;
 
 import java.sql.*;
 import java.util.Scanner;

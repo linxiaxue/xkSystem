@@ -39,18 +39,21 @@ public class PlanService {
         }
     }
 
-    public List<Plan> queryPlanByMajor(String major) throws IOException {
+    public Plan queryPlanByMajor(String major) throws IOException {
         SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
         SqlSession openSession = sqlSessionFactory.openSession();
 
         try {
             PlanMapper planMapper = openSession.getMapper(PlanMapper.class);
             List<Plan> plans = planMapper.selectByMajor(major);
-            System.out.println("查询到的条目数:" + plans.size());
-            return plans;
+            if (plans != null && plans.size() != 0) {
+                System.out.println("查询到的条目数:" + plans.size());
+                return plans.get(0);
+            }
         } finally {
             openSession.close();
         }
+        return null;
     }
 
     public List<Plan> queryAll() throws IOException {

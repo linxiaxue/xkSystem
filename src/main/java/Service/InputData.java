@@ -15,10 +15,14 @@ public class InputData {
     private PlanService planService = new PlanService();
     private PlanSectionService planSectionService = new PlanSectionService();
     private CourseCategoryService courseCategoryService = new CourseCategoryService();
+    private ProgressReportService progressReportService = new ProgressReportService();
+    private ProgressReportDetailService progressReportDetailService = new ProgressReportDetailService();
     //向系统中导入学生数据Students_Info.txt
     public void initStudent() throws IOException {
         //清空表中数据
         studentService.deleteAll();
+        progressReportDetailService.deleteAll();
+        progressReportService.deleteAll();
         File file = new File("TestCase/增强功能/Students_Info.txt");
         try {
             BufferedReader bw = new BufferedReader(new FileReader(file));
