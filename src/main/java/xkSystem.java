@@ -39,6 +39,6 @@ public class xkSystem {
         ProgressReportService progressReportService = new ProgressReportService();
         progressReportService.updateReportByStudentNo("18302010993");
         PrintJsonService printJsonService=new PrintJsonService();
-        printJsonService.PrimaryPrintJson("18302010993");
+        printJsonService.AdvancedPrintJson("18302010993");
     }
 }
