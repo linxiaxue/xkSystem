@@ -18,6 +18,9 @@ public class PrintJsonService {
     @Resource
     StudentMapper studentMapper;
 
+    static String overflowRecord="";
+    static int total_overflow=0;
+
     public SqlSessionFactory getSqlSessionFactory() throws IOException {
         String resource = "conf.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -177,6 +180,7 @@ public class PrintJsonService {
                 "\"要求学分/课程数量\":"+total+"\"," +
                 "\"进度情况\":"+jindu+"%\"" +
                 "},";
+
         return huizong;
     }
 
@@ -194,13 +198,16 @@ public class PrintJsonService {
         int xuqiu=progress_report1.getPlanThreshold();
         int current=0;
         if(ChinessClassType.equals("任意选修课")){
+            classdetail+=overflowRecord;
             current=progress_report1.getActualcredit();
             int lack=xuqiu-current>0?xuqiu-current:0;
-            int overflow=current-xuqiu>0?current-xuqiu:0;
+
             classdetail+="{" +
-                    "\"总结\":\"要求"+progress_report1.getPlanThreshold()+"学分，缺少"+lack +"学分,超出"+overflow+"学分。\"," +
+                    "\"总结\":\"要求"+progress_report1.getPlanThreshold()+"学分，缺少"+lack +"学分,超出"+total_overflow+"学分。\"," +
                     "\"备注\":\""+(int)(Float.parseFloat(progress_report1.getRemark())*100)+"%\""+
                     "}";
+            overflowRecord="";
+            total_overflow=0;
 
 
         }
@@ -213,6 +220,13 @@ public class PrintJsonService {
                         "\"总结\":\"要求"+progress_report1.getPlanThreshold()+"学分，缺少"+lack +"学分。\"," +
                         "\"备注\":\""+(int)(Float.parseFloat(progress_report1.getRemark())*100)+"%\""+
                         "}";
+                int overflow=current-xuqiu>0?current-xuqiu:0;
+                total_overflow+=overflow;
+                overflowRecord+="{" +
+                        "\"课程\":\""+ChinessClassType+"超出学分\"," +
+                        "\"学分\":\""+overflow+"\"," +
+                        "\"备注\":\""+"null"+"\"," +
+                        "},";
             }
             else {
                 current=progress_report1.getActualnumber();
@@ -221,6 +235,14 @@ public class PrintJsonService {
                         "\"总结\":\"要求"+progress_report1.getPlanThreshold()+"门课，缺少"+lack +"门课。\"," +
                         "\"备注\":\""+(int)(Float.parseFloat(progress_report1.getRemark())*100)+"%\""+
                         "}";
+                int overflow=current-xuqiu>0?current-xuqiu:0;
+                overflow*=2;
+                total_overflow+=overflow;
+                overflowRecord+="{" +
+                        "\"课程\":\""+ChinessClassType+"超出学分\"," +
+                        "\"学分\":\""+overflow+"\"," +
+                        "\"备注\":\""+"null"+"\"," +
+                        "},";
             }
 
         }
@@ -285,6 +307,13 @@ public class PrintJsonService {
                     "\"总结\":\"要求"+xuqiu+"学分，缺少"+lack +"学分。\"," +
                     "\"备注\":\""+jindu+"%\""+
                     "}";
+            int overflow=current-xuqiu>0?current-xuqiu:0;
+            total_overflow+=overflow;
+            overflowRecord+="{" +
+                    "\"课程\":\""+ChinessClassType+"超出学分\"," +
+                    "\"学分\":\""+overflow+"\"," +
+                    "\"备注\":\""+"null"+"\"," +
+                    "},";
         }
         else {
             jindu=numbers*100/total;
@@ -294,6 +323,14 @@ public class PrintJsonService {
                     "\"总结\":\"要求"+total+"门课，缺少"+lack +"门课。\"," +
                     "\"备注\":\""+jindu+"%\""+
                     "}";
+            int overflow=current-xuqiu>0?current-xuqiu:0;
+            overflow*=2;
+            total_overflow+=overflow;
+            overflowRecord+="{" +
+                    "\"课程\":\""+ChinessClassType+"超出学分\"," +
+                    "\"学分\":\""+overflow+"\"," +
+                    "\"备注\":\""+"null"+"\"," +
+                    "},";
         }
 
 
