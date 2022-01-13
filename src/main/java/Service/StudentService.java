@@ -31,7 +31,7 @@ public class StudentService {
             StudentMapper studentMapper = openSession.getMapper(StudentMapper.class);
             studentMapper.insert(student);
             openSession.commit();
-            System.out.println("新增学生id：" + student.getId());
+            //System.out.println("新增学生id：" + student.getId());
             return student;
         } finally {
             openSession.close();
@@ -45,7 +45,7 @@ public class StudentService {
         try {
             StudentMapper studentMapper = openSession.getMapper(StudentMapper.class);
             List<Student> students = studentMapper.selectByStudentNo(studentNo);
-            System.out.println("查询到的条目数:" + students.size());
+            //System.out.println("查询到的条目数:" + students.size());
             return students.get(0);
         } finally {
             openSession.close();

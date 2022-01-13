@@ -32,7 +32,7 @@ public class PlanService {
             PlanMapper planMapper = openSession.getMapper(PlanMapper.class);
             planMapper.insert(plan);
             openSession.commit();
-            System.out.println("新增修读计划id：" + plan.getId());
+            //System.out.println("新增修读计划id：" + plan.getId());
             return plan;
         } finally {
             openSession.close();
@@ -47,7 +47,7 @@ public class PlanService {
             PlanMapper planMapper = openSession.getMapper(PlanMapper.class);
             List<Plan> plans = planMapper.selectByMajor(major);
             if (plans != null && plans.size() != 0) {
-                System.out.println("查询到的条目数:" + plans.size());
+                //System.out.println("查询到的条目数:" + plans.size());
                 return plans.get(0);
             }
         } finally {
@@ -63,7 +63,7 @@ public class PlanService {
         try {
             PlanMapper planMapper = openSession.getMapper(PlanMapper.class);
             List<Plan> plans = planMapper.selectAll();
-            System.out.println("查询到的条目数:" + plans.size());
+            //System.out.println("查询到的条目数:" + plans.size());
             return plans;
         } finally {
             openSession.close();

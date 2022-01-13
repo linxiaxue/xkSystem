@@ -32,7 +32,7 @@ public class CourseCategoryService {
             Course_categoryMapper course_categoryMapper = openSession.getMapper(Course_categoryMapper.class);
             course_categoryMapper.insert(course);
             openSession.commit();
-            System.out.println("新增id：" + course.getId());
+            //System.out.println("新增id：" + course.getId());
             return course;
         } finally {
             openSession.close();
@@ -46,7 +46,7 @@ public class CourseCategoryService {
         try {
             Course_categoryMapper course_categoryMapper = openSession.getMapper(Course_categoryMapper.class);
             List<Course_category> courses = course_categoryMapper.selectByPlanSectionId(planSectionId);
-            System.out.println("查询到的条目数:" + courses.size());
+            //System.out.println("查询到的条目数:" + courses.size());
             return courses;
         } finally {
             openSession.close();
@@ -61,7 +61,7 @@ public class CourseCategoryService {
             Course_categoryMapper course_categoryMapper = openSession.getMapper(Course_categoryMapper.class);
             List<Course_category> courses = course_categoryMapper.selectByPlanSectionIdAndCourseNo(planSectionId,courseNo);
             if (courses != null && courses.size() != 0) {
-                System.out.println("查询到的条目数:" + courses.size());
+                //System.out.println("查询到的条目数:" + courses.size());
                 return courses;
             }else {
                 return null;

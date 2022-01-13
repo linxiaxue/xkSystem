@@ -30,7 +30,7 @@ public class CourseService {
             CourseMapper courseMapper = openSession.getMapper(CourseMapper.class);
             courseMapper.insert(course);
             openSession.commit();
-            System.out.println("新增课程id：" + course.getId());
+            //System.out.println("新增课程id：" + course.getId());
             return course;
         } finally {
             openSession.close();
@@ -44,7 +44,7 @@ public class CourseService {
         try {
             CourseMapper courseMapper = openSession.getMapper(CourseMapper.class);
             List<Course> courses = courseMapper.selectByCourseNo(courseNo);
-            System.out.println("查询到的条目数:" + courses.size());
+            //System.out.println("查询到的条目数:" + courses.size());
             return courses.get(0);
         } finally {
             openSession.close();

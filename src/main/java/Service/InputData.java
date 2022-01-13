@@ -212,6 +212,7 @@ public class InputData {
                 String courses = null;
                 while ((line = bw.readLine())!=null){
                     //如果包含plan_id对应的模块名称
+
                     if(line.indexOf(planSection.getPlanSectionType())!=-1){
                         while ((courses = bw.readLine())!=null && courses.indexOf("[")==-1){
                             Course_category course_category = new Course_category();

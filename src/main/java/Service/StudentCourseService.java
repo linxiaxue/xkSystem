@@ -30,7 +30,7 @@ public class StudentCourseService {
             Student_courseMapper studentCourseMapper = openSession.getMapper(Student_courseMapper.class);
             studentCourseMapper.insert(student_course);
             openSession.commit();
-            System.out.println("新增id：" + student_course.getId());
+            //System.out.println("新增id：" + student_course.getId());
             return student_course;
         } finally {
             openSession.close();

@@ -34,7 +34,7 @@ public class PlanSectionService {
             Plan_sectionMapper plan_sectionMapper = openSession.getMapper(Plan_sectionMapper.class);
             plan_sectionMapper.insert(planSection);
             openSession.commit();
-            System.out.println("新增修读计划模块id：" + planSection.getId());
+            //System.out.println("新增修读计划模块id：" + planSection.getId());
             return planSection;
         } finally {
             openSession.close();
@@ -48,7 +48,7 @@ public class PlanSectionService {
         try {
             Plan_sectionMapper plan_sectionMapper = openSession.getMapper(Plan_sectionMapper.class);
             List<Plan_section> plans = plan_sectionMapper.selectByPlanId(planId);
-            System.out.println("查询到的条目数:" + plans.size());
+            //System.out.println("查询到的条目数:" + plans.size());
             return plans;
         } finally {
             openSession.close();
@@ -76,7 +76,7 @@ public class PlanSectionService {
         try {
             Plan_sectionMapper plan_sectionMapper = openSession.getMapper(Plan_sectionMapper.class);
             List<Plan_section> plans = plan_sectionMapper.selectAll();
-            System.out.println("查询到的条目数:" + plans.size());
+            //System.out.println("查询到的条目数:" + plans.size());
             return plans;
         } finally {
             openSession.close();

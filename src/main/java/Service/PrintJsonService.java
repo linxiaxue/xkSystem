@@ -8,10 +8,10 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import java.io.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.List;
 
 public class PrintJsonService {
@@ -76,6 +76,7 @@ public class PrintJsonService {
             detail+="}}";
             output+=huizong+detail;
             System.out.println(formatToJson(output));
+            createJsonFile(formatToJson(output),"result/","基础功能result");
 
 
 
@@ -138,6 +139,7 @@ public class PrintJsonService {
             detail+="}}";
             output+=huizong+detail;
             System.out.println(formatToJson(output));
+            createJsonFile(formatToJson(output),"result/","增强功能result");
 
 
 
@@ -162,8 +164,8 @@ public class PrintJsonService {
                 "\"课程类型\":\""+ChinessClassType+"\"," +
                 "\"已修学分\":\""+progress_report1.getActualcredit()+"\"," +
                 "\"已修课程数量\":\""+progress_report1.getActualnumber()+"\"," +
-                "\"要求学分/课程数量\":"+progress_report1.getPlanThreshold()+"\"," +
-                "\"进度情况\":"+(int)(Float.parseFloat(progress_report1.getRemark())*100)+"%\"" +
+                "\"要求学分/课程数量\":\""+progress_report1.getPlanThreshold()+"\"," +
+                "\"进度情况\":\""+(int)(Float.parseFloat(progress_report1.getRemark())*100)+"%\"" +
                 "},";
         return huizong;
     }
@@ -177,8 +179,8 @@ public class PrintJsonService {
                 "\"课程类型\":\""+ChinessClassType+"\"," +
                 "\"已修学分\":\""+credits+"\"," +
                 "\"已修课程数量\":\""+numbers+"\"," +
-                "\"要求学分/课程数量\":"+total+"\"," +
-                "\"进度情况\":"+jindu+"%\"" +
+                "\"要求学分/课程数量\":\""+total+"\"," +
+                "\"进度情况\":\""+jindu+"%\"" +
                 "},";
 
         return huizong;
@@ -203,7 +205,7 @@ public class PrintJsonService {
             int lack=xuqiu-current>0?xuqiu-current:0;
 
             classdetail+="{" +
-                    "\"总结\":\"要求"+progress_report1.getPlanThreshold()+"学分，缺少"+lack +"学分,超出"+total_overflow+"学分。\"," +
+                    "\"总结\":\"要求"+progress_report1.getPlanThreshold()+"学分，缺少"+lack+"学分，超出"+total_overflow+"学分。\"," +
                     "\"备注\":\""+(int)(Float.parseFloat(progress_report1.getRemark())*100)+"%\""+
                     "}";
             overflowRecord="";
@@ -225,7 +227,7 @@ public class PrintJsonService {
                 overflowRecord+="{" +
                         "\"课程\":\""+ChinessClassType+"超出学分\"," +
                         "\"学分\":\""+overflow+"\"," +
-                        "\"备注\":\""+"null"+"\"," +
+                        "\"备注\":\""+"null"+"\"" +
                         "},";
             }
             else {
@@ -241,7 +243,7 @@ public class PrintJsonService {
                 overflowRecord+="{" +
                         "\"课程\":\""+ChinessClassType+"超出学分\"," +
                         "\"学分\":\""+overflow+"\"," +
-                        "\"备注\":\""+"null"+"\"," +
+                        "\"备注\":\""+"null"+"\"" +
                         "},";
             }
 
@@ -271,7 +273,7 @@ public class PrintJsonService {
                 classdetail+="{" +
                         "\"课程\":\""+course.getCourseNo()+"-"+course.getName()+"\"," +
                         "\"学分\":\""+course.getCredit()+"\"," +
-                        "\"备注\":\""+ret+"\"," +
+                        "\"备注\":\""+ret+"\"" +
                         "},";
             }
 
@@ -312,7 +314,7 @@ public class PrintJsonService {
             overflowRecord+="{" +
                     "\"课程\":\""+ChinessClassType+"超出学分\"," +
                     "\"学分\":\""+overflow+"\"," +
-                    "\"备注\":\""+"null"+"\"," +
+                    "\"备注\":\""+"null"+"\"" +
                     "},";
         }
         else {
@@ -381,6 +383,43 @@ public class PrintJsonService {
             lb.append("\t");
         }
         return String.valueOf(lb);
+    }
+
+    public static boolean createJsonFile(String jsonString, String filePath, String fileName) {
+        // 标记文件生成是否成功
+        boolean flag = true;
+
+        // 拼接文件完整路径
+        String fullPath = filePath + File.separator + fileName + ".json";
+
+        // 生成json格式文件
+        try {
+            // 保证创建一个新文件
+            File file = new File(fullPath);
+            if (!file.getParentFile().exists()) { // 如果父目录不存在，创建父目录
+                file.getParentFile().mkdirs();
+            }
+            if (file.exists()) { // 如果已存在,删除旧文件
+                file.delete();
+            }
+            file.createNewFile();
+
+
+
+
+
+            // 将格式化后的字符串写入文件
+            Writer write = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+            write.write(jsonString);
+            write.flush();
+            write.close();
+        } catch (Exception e) {
+            flag = false;
+            e.printStackTrace();
+        }
+
+        // 返回是否成功的标记
+        return flag;
     }
 
 }
